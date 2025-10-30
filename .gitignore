@@ -6,6 +6,10 @@ __pycache__/
 # MLflow
 mlruns/
 
-# DVC
-/data/
+# DVC - Solo ignorar archivos de datos, NO los .dvc
+/data/raw/mtsamples.csv
+/data/processed/*.csv
+
+# DVC internals
 .dvc/config.local
+.dvc/tmp/
