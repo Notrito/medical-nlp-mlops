@@ -1,0 +1,31 @@
+schema: '2.0'
+stages:
+  data_preparation:
+    cmd: python src/data_preparation.py
+    deps:
+    - path: data/raw/mtsamples.csv
+      hash: md5
+      md5: d8547837775283c95b8a70119da806f8
+      size: 17007236
+      isexec: true
+    - path: src/config.py
+      hash: md5
+      md5: c75c279f1fceed314db93a4d82f7048c
+      size: 641
+      isexec: true
+    - path: src/data_preparation.py
+      hash: md5
+      md5: 42109c213b49ba2521bf4d801c5a432a
+      size: 6053
+      isexec: true
+    outs:
+    - path: data/processed/test.csv
+      hash: md5
+      md5: c94ee9917041b0b7d413490caa9d4ed4
+      size: 3277533
+      isexec: true
+    - path: data/processed/train.csv
+      hash: md5
+      md5: ae0d4894f69fd27f9d6111478109db2a
+      size: 13250139
+      isexec: true

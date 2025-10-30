@@ -1,0 +1,10 @@
+stages:
+  data_preparation:
+    cmd: python src/data_preparation.py
+    deps:
+      - src/data_preparation.py
+      - src/config.py
+      - data/raw/mtsamples.csv
+    outs:
+      - data/processed/train.csv
+      - data/processed/test.csv
