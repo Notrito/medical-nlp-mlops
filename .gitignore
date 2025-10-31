@@ -9,6 +9,7 @@ mlruns/
 # DVC - Solo ignorar archivos de datos, NO los .dvc
 /data/raw/mtsamples.csv
 /data/processed/*.csv
+/data/tokenized/
 
 # DVC internals
 .dvc/config.local
