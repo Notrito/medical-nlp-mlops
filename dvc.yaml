@@ -7,4 +7,14 @@ stages:
       - data/raw/mtsamples.csv
     outs:
       - data/processed/train.csv
+      - data/processed/val.csv
       - data/processed/test.csv
+  tokenization:
+    cmd: python src/tokenization.py --model distilbert-base-uncased --input data/processed --output data/tokenized --max_length 128
+    deps:
+      - src/tokenization.py
+      - data/processed/train.csv
+      - data/processed/val.csv
+      - data/processed/test.csv
+    outs:
+      - data/tokenized
