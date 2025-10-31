@@ -160,6 +160,15 @@ def main():
     )
     print(f"   ✓ Train set: {len(train_df)} muestras")
     print(f"   ✓ Test set: {len(test_df)} muestras")
+
+    tr_df, val_df = train_test_split(
+        df_processed,
+        test_size=config.VAL_SIZE,
+        random_state=config.RANDOM_STATE,
+        stratify=stratify_column
+    )
+    print(f"   ✓ Train set final: {len(tr_df)} muestras")
+    print(f"   ✓ Val set: {len(val_df)} muestras")
     
     # 6. Guardar datasets procesados
     print(f"\n[6/6] Guardando datasets procesados...")
@@ -167,12 +176,15 @@ def main():
     output_dir.mkdir(parents=True, exist_ok=True)
     
     train_path = output_dir / "train.csv"
+    val_path = output_dir / "val.csv"
     test_path = output_dir / "test.csv"
     
-    train_df.to_csv(train_path, index=False)
+    tr_df.to_csv(train_path, index=False)
+    val_df.to_csv(val_path, index=False)
     test_df.to_csv(test_path, index=False)
     
     print(f"   ✓ Train guardado en: {train_path}")
+    print(f"   ✓ Val guardado en: {val_path}")
     print(f"   ✓ Test guardado en: {test_path}")
     
     # Resumen final
