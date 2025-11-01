@@ -28,11 +28,14 @@ from transformers import (
     TrainingArguments,
     DataCollatorWithPadding
 )
+from transformers.trainer_utils import get_last_checkpoint
 from datasets import load_from_disk
 import mlflow
 import mlflow.pytorch
+import mlflow.transformers
 from sklearn.metrics import accuracy_score, f1_score, precision_recall_fscore_support
 import numpy as np
+from accelerate import Accelerator
 
 
 # ---------------------------------------------------------------------
@@ -73,7 +76,7 @@ def load_tokenized_data(data_dir):
     logger.info(f"✓ Train: {len(train_dataset)} muestras")
     logger.info(f"✓ Val: {len(val_dataset)} muestras")
     logger.info(f"✓ Test: {len(test_dataset)} muestras")
-    
+
     return train_dataset, val_dataset, test_dataset
 
 
@@ -150,9 +153,9 @@ def train_model(args):
             logging_steps=50,
             load_best_model_at_end=True,
             metric_for_best_model="f1_macro",
-            report_to="none"
+            report_to="mlflow"
         )
-
+        last_checkpoint = get_last_checkpoint(args.output_dir)
         trainer = Trainer(
             model=model,
             args=training_args,
@@ -165,7 +168,7 @@ def train_model(args):
 
         # entrenar
         logger.info("Iniciando entrenamiento...")
-        train_result = trainer.train()
+        train_result = trainer.train(resume_from_checkpoint=last_checkpoint)
         logger.info("Entrenamiento completado.")
 
         # log metrics
@@ -195,8 +198,12 @@ def train_model(args):
         tokenizer.save_pretrained(args.output_dir)
         
         # Unwrap model antes de guardar en MLflow (necesario con fp16)
-        unwrapped_model = trainer.model.module if hasattr(trainer.model, 'module') else trainer.model
-        mlflow.pytorch.log_model(unwrapped_model, "model")
+        mlflow.transformers.log_model(
+            transformers_model={"model": trainer.model, "tokenizer": tokenizer},
+            artifact_path="model",
+            task="text-classification"
+        )
+        logger.info("✅ Modelo guardado en MLflow correctamente")
         
         logger.info("✅ Entrenamiento completado exitosamente!")
         logger.info(f"   - Val F1 (macro): {val_metrics['eval_f1_macro']:.4f}")
