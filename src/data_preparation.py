@@ -13,10 +13,19 @@ Proceso:
 import pandas as pd
 from pathlib import Path
 from sklearn.model_selection import train_test_split
+from sklearn.preprocessing import LabelEncoder
+import json
 import sys
 sys.path.append('.')
 import config
+import os
+import logging
 
+logging.basicConfig(
+    level=logging.INFO,
+    format="%(asctime)s [%(levelname)s] %(message)s"
+)
+logger = logging.getLogger(__name__)
 
 def create_chunks(text, chunk_size=2000, overlap=200):
     """
@@ -131,7 +140,7 @@ def main():
     top_specialties = create_specialty_mapping(df, top_n=config.TOP_N_SPECIALTIES)
     print(f"   ✓ Top {config.TOP_N_SPECIALTIES} especialidades identificadas")
     print(f"   ✓ Total de categorías: {config.TOP_N_SPECIALTIES + 1} (incluyendo 'Others')")
-    
+
     # 4. Aplicar chunking
     print(f"\n[4/6] Aplicando chunking (tamaño={config.CHUNK_SIZE}, overlap={config.OVERLAP})...")
     df_processed = process_dataset_with_chunks(
@@ -144,6 +153,20 @@ def main():
     print(f"   ✓ Dataset con chunks: {len(df_processed)} muestras")
     print(f"   ✓ Incremento: {len(df_processed) - len(df)} muestras adicionales")
     
+    # Crear label encoder
+    label_encoder = LabelEncoder()
+    df_processed['label'] = label_encoder.fit_transform(df_processed[config.CLEAN_LABEL_COLUMN])
+
+
+    # Guardar el mapeo de labels para referencia
+    label_mapping = {idx: label for idx, label in enumerate(label_encoder.classes_)}
+    mapping_path = os.path.join(config.PROCESSED_DATA_DIR, "label_mapping.json")
+    with open(mapping_path, 'w') as f:
+        json.dump(label_mapping, f, indent=2)
+
+    logger.info(f"✓ Label encoding aplicado: {len(label_mapping)} clases")
+    logger.info(f"✓ Mapeo guardado en: {mapping_path}")
+
     # 5. Train/test split
     print(f"\n[5/6] Realizando train/test split ({int((1-config.TEST_SIZE)*100)}/{int(config.TEST_SIZE*100)})...")
     if config.STRATIFY:

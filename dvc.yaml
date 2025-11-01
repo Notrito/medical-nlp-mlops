@@ -18,3 +18,10 @@ stages:
       - data/processed/test.csv
     outs:
       - data/tokenized
+  training:
+    cmd: python src/train.py --model distilbert-base-uncased --data_dir data/tokenized --output_dir models/distilbert --epochs 3 --batch_size 8 --fp16
+    deps:
+      - src/train.py
+      - data/tokenized
+    outs:
+      - models/distilbert

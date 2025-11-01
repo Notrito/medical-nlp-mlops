@@ -10,6 +10,7 @@ mlruns/
 /data/raw/mtsamples.csv
 /data/processed/*.csv
 /data/tokenized/
+/models/
 
 # DVC internals
 .dvc/config.local

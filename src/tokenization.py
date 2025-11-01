@@ -66,10 +66,6 @@ def tokenize_datasets(train_df, val_df, test_df, tokenizer, max_length):
     val_dataset = Dataset.from_pandas(val_df)
     test_dataset = Dataset.from_pandas(test_df)
 
-    train_dataset = train_dataset.rename_column("specialty_clean", "label")
-    val_dataset = val_dataset.rename_column("specialty_clean", "label")
-    test_dataset = test_dataset.rename_column("specialty_clean", "label")
-
     logger.info("Tokenizando datasets...")
     train_tok = train_dataset.map(tokenize_fn, batched=True)
     val_tok = val_dataset.map(tokenize_fn, batched=True)
