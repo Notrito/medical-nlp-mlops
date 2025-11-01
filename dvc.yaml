@@ -19,9 +19,11 @@ stages:
     outs:
       - data/tokenized
   training:
-    cmd: python src/train.py --model distilbert-base-uncased --data_dir data/tokenized --output_dir models/distilbert --epochs 3 --batch_size 8 --fp16
+    cmd: python src/train.py --model ${train.model} --data_dir data/tokenized --output_dir models/distilbert --epochs ${train.epochs} --batch_size ${train.batch_size} --learning_rate ${train.learning_rate} --max_length ${train.max_length} --gradient_accumulation_steps ${train.gradient_accumulation_steps}
     deps:
       - src/train.py
       - data/tokenized
+    params:
+      - train
     outs:
       - models/distilbert
