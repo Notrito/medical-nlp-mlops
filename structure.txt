@@ -1,0 +1,88 @@
+.
+├── README.md
+├── data
+│   ├── mtsamples_chunked.csv
+│   ├── processed
+│   │   ├── label_mapping.json
+│   │   ├── test.csv
+│   │   ├── train.csv
+│   │   └── val.csv
+│   ├── raw
+│   │   ├── mtsamples.csv
+│   │   └── mtsamples.csv.dvc
+│   ├── tokenized
+│   │   ├── test
+│   │   ├── train
+│   │   └── val
+│   ├── tokenized.dvc
+│   └── tokenized_biobert
+│       ├── test
+│       ├── train
+│       └── val
+├── dvc.lock
+├── dvc.yaml
+├── mlruns
+│   ├── 0
+│   │   └── meta.yaml
+│   ├── 153007720153739877
+│   │   ├── 03a47749e32a4325bf48a4a859c78b36
+│   │   ├── 18f74acd626745e3b168019f9def87dc
+│   │   ├── 1eb52982869b47cd96a52317da14c75a
+│   │   ├── 5e18eb35c9034984aa9e283db36562a5
+│   │   ├── 60532fd623b84c5f968c69246ad3f643
+│   │   ├── 98b95d699e794771a861196cfc8f58db
+│   │   ├── adb7d8d9d1a04f24a5bc6310493b6768
+│   │   ├── e722e8d635994fd1b335e261a43cbbd9
+│   │   ├── e8910231f5c74ed39e41acd0065348ac
+│   │   ├── f2e6c4900e43402397b10eec96c95061
+│   │   ├── fa1095818ddd494a9df7c9901b126f19
+│   │   ├── meta.yaml
+│   │   ├── models
+│   │   └── tags
+│   └── models
+├── models
+│   ├── biobert
+│   │   ├── checkpoint-1168
+│   │   ├── checkpoint-1460
+│   │   ├── checkpoint-1752
+│   │   ├── checkpoint-292
+│   │   ├── checkpoint-584
+│   │   ├── checkpoint-876
+│   │   ├── config.json
+│   │   ├── model.safetensors
+│   │   ├── special_tokens_map.json
+│   │   ├── tokenizer.json
+│   │   ├── tokenizer_config.json
+│   │   ├── training_args.bin
+│   │   └── vocab.txt
+│   └── distilbert
+│       ├── checkpoint-1168
+│       ├── checkpoint-1460
+│       ├── checkpoint-1752
+│       ├── checkpoint-292
+│       ├── checkpoint-584
+│       ├── checkpoint-876
+│       ├── config.json
+│       ├── model.safetensors
+│       ├── special_tokens_map.json
+│       ├── tokenizer.json
+│       ├── tokenizer_config.json
+│       ├── training_args.bin
+│       └── vocab.txt
+├── notebooks
+│   ├── 01_EDA.ipynb
+│   └── 02_tokenize.ipynb
+├── params.yaml
+├── requirements.txt
+├── scripts
+│   ├── __init__.py
+│   └── download_data.py
+├── src
+│   ├── __init__.py
+│   ├── config.py
+│   ├── data_preparation.py
+│   ├── tokenization.py
+│   └── train.py
+└── structure.txt
+
+47 directories, 39 files
