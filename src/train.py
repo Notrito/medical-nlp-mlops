@@ -7,11 +7,14 @@ con integración de MLflow para tracking de experimentos.
 
 Uso:
     python src/train.py \
-        --model distilbert-base-uncased \
-        --data_dir data/tokenized \
-        --output_dir models/distilbert \
-        --epochs 3 \
-        --batch_size 8
+        --model dmis-lab/biobert-base-cased-v1.2 \
+        --data_dir data/tokenized_biobert \
+        --output_dir models/biobert \
+        --epochs 6 \
+        --batch_size 4 \
+        --fp16 \
+        --gradient_accumulation_steps 8 \
+        --learning_rate 2e-5
 """
 
 import os
@@ -198,12 +201,12 @@ def train_model(args):
         tokenizer.save_pretrained(args.output_dir)
         
         # Unwrap model antes de guardar en MLflow (necesario con fp16)
-        mlflow.transformers.log_model(
-            transformers_model={"model": trainer.model, "tokenizer": tokenizer},
-            artifact_path="model",
-            task="text-classification"
-        )
-        logger.info("✅ Modelo guardado en MLflow correctamente")
+        # mlflow.transformers.log_model(
+        #     transformers_model={"model": trainer.model, "tokenizer": tokenizer},
+        #     artifact_path="model",
+        #     task="text-classification"
+        # )
+        # logger.info("✅ Modelo guardado en MLflow correctamente")
         
         logger.info("✅ Entrenamiento completado exitosamente!")
         logger.info(f"   - Val F1 (macro): {val_metrics['eval_f1_macro']:.4f}")

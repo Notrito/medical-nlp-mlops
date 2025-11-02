@@ -10,6 +10,7 @@ mlruns/
 /data/raw/mtsamples.csv
 /data/processed/*.csv
 /data/tokenized/
+/data/tokenized_biobert/
 /models/
 
 # DVC internals
